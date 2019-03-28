@@ -9,14 +9,22 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { BLE } from '@ionic-native/ble/ngx';
+
+import {MicroBitService} from '../services/MicroBitService';
+
+import { SampleModalPageModule } from './sample-modal/sample-modal.module';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, SampleModalPageModule],
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    BLE,
+    MicroBitService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title><ion-icon name="analysis"></ion-icon>  Sample Analysis</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-card>
+        <ion-card-header>
+          Your Sample
+        </ion-card-header>
+      
+        <ion-list>
+          <button>
+            <ion-icon name="analytics" item-start></ion-icon>
+            <ion-chip>
+                <ion-label>Sample time: {{selectedSampe.startTime}}</ion-label>
+            </ion-chip>                                                     
+            <ion-chip>
+                <ion-label>Average force: {{selectedSampe.averageForce}}</ion-label>
+            </ion-chip>   
+            <ion-chip>
+                <ion-label>Min force: {{selectedSampe.minForce}}</ion-label>
+            </ion-chip> 
+            <ion-chip>
+                <ion-label>Max force: {{selectedSampe.maxForce}}</ion-label>
+            </ion-chip>                             
+            <ion-chip>
+                <ion-label>Elapsed time: {{selectedSampe.elapsedSeconds}}</ion-label>
+            </ion-chip>                                       
+          </button>
+      
+        </ion-list>
+      </ion-card>
+
+      <ion-card>
+          <ion-card-header>
+            Comparisons
+          </ion-card-header>
+
+          <ion-card-content>
+            <google-chart [data]="chartData"></google-chart>            
+
+            <google-chart [data]="chartData2"></google-chart>            
+
+          </ion-card-content>
+
+        </ion-card>      
+
+</ion-content>

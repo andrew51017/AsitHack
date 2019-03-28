@@ -1,41 +1,99 @@
-<ion-header>
-  <ion-toolbar>
+<ion-header color="primary">
+  <ion-toolbar color="primary">
     <ion-title>
-      Tab One
+      Measure force
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-card class="welcome-card">
-      <ion-img src="/assets/shapes.svg"></ion-img>
+
+  <ion-card>
       <ion-card-header>
-        <ion-card-subtitle>Get Started</ion-card-subtitle>
-        <ion-card-title>Welcome to Ionic</ion-card-title>
+        Connection Status
       </ion-card-header>
       <ion-card-content>
-        <p>Now that your app has been created, you'll want to start building out features and components. Check out some of the resources below for next steps.</p>
+
+          <ion-button (click)="connectToSensor()" expand="block" *ngIf="!isConnected && !isScanning">
+            <ion-icon slot="start" name="bluetooth"></ion-icon>&nbsp;&nbsp;&nbsp;Scan  
+          </ion-button>
+
+          <ion-button (click)="stopScan()" expand="block" *ngIf="isScanning">
+            <ion-spinner slot="start"></ion-spinner>&nbsp;&nbsp;&nbsp;Scanning (tap to stop)
+          </ion-button>  
+          
+          <ion-button expand="block" *ngIf="isConnected" color="secondary">
+              <ion-icon slot="start" name="hammer"></ion-icon>&nbsp;&nbsp;&nbsp;Connected to tool  
+          </ion-button>             
+
+          <!-- <button [disabled]="!isConnected" (click)="readDevice()" ion-button icon-left block color="secondary">Read</button> -->
+
       </ion-card-content>
-    </ion-card>
-    <ion-list lines="none">
-      <ion-list-header>
-        <ion-label>Resources</ion-label>
-      </ion-list-header>
-      <ion-item href="https://ionicframework.com/docs/">
-        <ion-icon slot="start" color="medium" name="book"></ion-icon>
-        <ion-label>Ionic Documentation</ion-label>
-      </ion-item>
-      <ion-item href="https://ionicframework.com/docs/building/scaffolding">
-        <ion-icon slot="start" color="medium" name="build"></ion-icon>
-        <ion-label>Scaffold Out Your App</ion-label>
-      </ion-item>
-      <ion-item href="https://ionicframework.com/docs/layout/structure">
-        <ion-icon slot="start" color="medium" name="grid"></ion-icon>
-        <ion-label>Change Your App Layout</ion-label>
-      </ion-item>
-      <ion-item href="https://ionicframework.com/docs/theming/basics">
-        <ion-icon slot="start" color="medium" name="color-fill"></ion-icon>
-        <ion-label>Theme Your App</ion-label>
-      </ion-item>
-    </ion-list>
+    </ion-card>  
+
+    <br/>
+
+    <ion-card *ngIf="isConnected">
+        <ion-card-header>
+          Training Session
+        </ion-card-header>
+        <ion-card-content>
+  
+            <ion-button color="primary" (click)="startSession()" expand="block" *ngIf="!isRecording">
+              <ion-icon slot="start" name="stopwatch"></ion-icon>&nbsp;&nbsp;&nbsp;Record sample
+            </ion-button>  
+
+            <ion-button color="danger" (click)="stopSession()" expand="block" *ngIf="isRecording">
+              <ion-icon slot="start" name="close-circle"></ion-icon>&nbsp;&nbsp;&nbsp;Stop recording
+            </ion-button>              
+  
+        </ion-card-content>
+      </ion-card>  
+      
+      <br/>
+
+      <ion-card *ngIf="isRecording">
+          <ion-card-content>
+            
+              <ion-spinner slot="start"></ion-spinner>
+
+              <br/>
+
+              <ion-chip>
+                  <ion-label>Elapsed time: {{elapsedSeconds}}</ion-label>
+              </ion-chip>
+    
+          </ion-card-content>
+      </ion-card> 
+
+      <br/>
+
+      <ion-card *ngIf="recordedSamples.length > 0">
+          <ion-card-header>
+            Samples
+          </ion-card-header>
+        
+          <ion-list>
+            <button (click)="showModal(sample)" ion-item *ngFor="let sample of recordedSamples">
+              <ion-icon name="analytics" item-start></ion-icon>
+              <ion-chip>
+                  <ion-label>Sample time: {{sample.startTime}}</ion-label>
+              </ion-chip>                                                     
+              <ion-chip>
+                  <ion-label>Average force: {{sample.averageForce}}</ion-label>
+              </ion-chip>   
+              <ion-chip>
+                  <ion-label>Min force: {{sample.minForce}}</ion-label>
+              </ion-chip> 
+              <ion-chip>
+                  <ion-label>Max force: {{sample.maxForce}}</ion-label>
+              </ion-chip>                             
+              <ion-chip>
+                  <ion-label>Elapsed time: {{sample.elapsedSeconds}}</ion-label>
+              </ion-chip>                                       
+            </button>
+        
+          </ion-list>
+        </ion-card>      
+
 </ion-content>
